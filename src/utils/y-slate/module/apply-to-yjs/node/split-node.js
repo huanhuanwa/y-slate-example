@@ -1,0 +1,43 @@
+import invariant from 'tiny-invariant';
+import { SyncNode } from '../../model';
+import { getParent } from '../../path';
+import cloneSyncElement from '../../utils/clone';
+/**
+ * Applies a split node operation to a SharedType
+ *
+ * @param doc
+ * @param op
+ */
+export default function splitNode(doc, op) {
+    const [parent, index] = getParent(doc, op.path);
+    const children = SyncNode.getChildren(parent);
+    invariant(children, 'Parent of node should have children');
+    const target = children.get(index);
+    const inject = cloneSyncElement(target);
+    children.insert(index + 1, [inject]);
+    Object.entries(op.properties).forEach(([key, value]) => inject.set(key, value));
+    if (SyncNode.getText(target) !== undefined) {
+        const targetText = SyncNode.getText(target);
+        const injectText = SyncNode.getText(inject);
+        invariant(targetText);
+        invariant(injectText);
+        if (targetText.length > op.position) {
+            targetText.delete(op.position, targetText.length - op.position);
+        }
+        if (injectText !== undefined && op.position !== undefined) {
+            injectText.delete(0, op.position);
+        }
+    }
+    else {
+        const targetChildren = SyncNode.getChildren(target);
+        const injectChildren = SyncNode.getChildren(inject);
+        invariant(targetChildren);
+        invariant(injectChildren);
+        targetChildren.delete(op.position, targetChildren.length - op.position);
+        if (op.position !== undefined) {
+            injectChildren.delete(0, op.position);
+        }
+    }
+    return doc;
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3BsaXQtbm9kZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL3NyYy9hcHBseS10by15anMvbm9kZS9zcGxpdC1ub2RlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUNBLE9BQU8sU0FBUyxNQUFNLGdCQUFnQixDQUFDO0FBQ3ZDLE9BQU8sRUFBYyxRQUFRLEVBQUUsTUFBTSxhQUFhLENBQUM7QUFDbkQsT0FBTyxFQUFFLFNBQVMsRUFBRSxNQUFNLFlBQVksQ0FBQztBQUN2QyxPQUFPLGdCQUFnQixNQUFNLG1CQUFtQixDQUFDO0FBRWpEOzs7OztHQUtHO0FBQ0gsTUFBTSxDQUFDLE9BQU8sVUFBVSxTQUFTLENBQy9CLEdBQWUsRUFDZixFQUFzQjtJQUV0QixNQUFNLENBQUMsTUFBTSxFQUFFLEtBQUssQ0FBQyxHQUF1QixTQUFTLENBQUMsR0FBRyxFQUFFLEVBQUUsQ0FBQyxJQUFJLENBQUMsQ0FBQztJQUVwRSxNQUFNLFFBQVEsR0FBRyxRQUFRLENBQUMsV0FBVyxDQUFDLE1BQU0sQ0FBQyxDQUFDO0lBQzlDLFNBQVMsQ0FBQyxRQUFRLEVBQUUscUNBQXFDLENBQUMsQ0FBQztJQUUzRCxNQUFNLE1BQU0sR0FBRyxRQUFRLENBQUMsR0FBRyxDQUFDLEtBQUssQ0FBQyxDQUFDO0lBQ25DLE1BQU0sTUFBTSxHQUFHLGdCQUFnQixDQUFDLE1BQU0sQ0FBQyxDQUFDO0lBQ3hDLFFBQVEsQ0FBQyxNQUFNLENBQUMsS0FBSyxHQUFHLENBQUMsRUFBRSxDQUFDLE1BQU0sQ0FBQyxDQUFDLENBQUM7SUFFckMsTUFBTSxDQUFDLE9BQU8sQ0FBQyxFQUFFLENBQUMsVUFBVSxDQUFDLENBQUMsT0FBTyxDQUFDLENBQUMsQ0FBQyxHQUFHLEVBQUUsS0FBSyxDQUFDLEVBQUUsRUFBRSxDQUNyRCxNQUFNLENBQUMsR0FBRyxDQUFDLEdBQUcsRUFBRSxLQUFLLENBQUMsQ0FDdkIsQ0FBQztJQUVGLElBQUksUUFBUSxDQUFDLE9BQU8sQ0FBQyxNQUFNLENBQUMsS0FBSyxTQUFTLEVBQUU7UUFDMUMsTUFBTSxVQUFVLEdBQUcsUUFBUSxDQUFDLE9BQU8sQ0FBQyxNQUFNLENBQUMsQ0FBQztRQUM1QyxNQUFNLFVBQVUsR0FBRyxRQUFRLENBQUMsT0FBTyxDQUFDLE1BQU0sQ0FBQyxDQUFDO1FBRTVDLFNBQVMsQ0FBQyxVQUFVLENBQUMsQ0FBQztRQUN0QixTQUFTLENBQUMsVUFBVSxDQUFDLENBQUM7UUFFdEIsSUFBSSxVQUFVLENBQUMsTUFBTSxHQUFHLEVBQUUsQ0FBQyxRQUFRLEVBQUU7WUFDbkMsVUFBVSxDQUFDLE1BQU0sQ0FBQyxFQUFFLENBQUMsUUFBUSxFQUFFLFVBQVUsQ0FBQyxNQUFNLEdBQUcsRUFBRSxDQUFDLFFBQVEsQ0FBQyxDQUFDO1NBQ2pFO1FBRUQsSUFBSSxVQUFVLEtBQUssU0FBUyxJQUFJLEVBQUUsQ0FBQyxRQUFRLEtBQUssU0FBUyxFQUFFO1lBQ3pELFVBQVUsQ0FBQyxNQUFNLENBQUMsQ0FBQyxFQUFFLEVBQUUsQ0FBQyxRQUFRLENBQUMsQ0FBQztTQUNuQztLQUNGO1NBQU07UUFDTCxNQUFNLGNBQWMsR0FBRyxRQUFRLENBQUMsV0FBVyxDQUFDLE1BQU0sQ0FBQyxDQUFDO1FBQ3BELE1BQU0sY0FBYyxHQUFHLFFBQVEsQ0FBQyxXQUFXLENBQUMsTUFBTSxDQUFDLENBQUM7UUFFcEQsU0FBUyxDQUFDLGNBQWMsQ0FBQyxDQUFDO1FBQzFCLFNBQVMsQ0FBQyxjQUFjLENBQUMsQ0FBQztRQUUxQixjQUFjLENBQUMsTUFBTSxDQUFDLEVBQUUsQ0FBQyxRQUFRLEVBQUUsY0FBYyxDQUFDLE1BQU0sR0FBRyxFQUFFLENBQUMsUUFBUSxDQUFDLENBQUM7UUFFeEUsSUFBSSxFQUFFLENBQUMsUUFBUSxLQUFLLFNBQVMsRUFBRTtZQUM3QixjQUFjLENBQUMsTUFBTSxDQUFDLENBQUMsRUFBRSxFQUFFLENBQUMsUUFBUSxDQUFDLENBQUM7U0FDdkM7S0FDRjtJQUVELE9BQU8sR0FBRyxDQUFDO0FBQ2IsQ0FBQyJ9
