@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+@import './app/app.component.scss';
+@import './editor-typo.scss';
+@import './assets/materialicons/icon.css';
+
+html,
+input,
+textarea {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.4;
+    background: #fafafa;
+}
+
+body {
+    margin: 0;
+}
+.slate-editable-container {
+    display: block;
+    outline: none;
+    padding: 32px;
+    white-space: pre-wrap;
+    & [contenteditable="true"] {
+        outline: none;
+    }
+}
+.slate-spacer {
+    height: 0;
+    color: transparent;
+    outline: none;
+    position: absolute;
+}

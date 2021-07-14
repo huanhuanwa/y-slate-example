@@ -1,0 +1,16 @@
+<div class="demo-rich-editor-wrapper">
+  <div class="slug-text">
+    <span>
+      Document slug： <input type="text" [value]="slug" (change)="changeSlug($event)">
+    </span>
+    <button class="yjs-button" type="button" (click)="addUser()">
+      Add Editor 
+    </button>
+  </div>
+ <div class="app-editor">
+  <ng-container *ngFor="let user of users">
+    <app-editor *ngIf="!isRemounted" [user]="user" [slug]="slug"></app-editor>
+  </ng-container>
+ </div>
+  
+</div>
