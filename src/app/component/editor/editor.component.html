@@ -13,7 +13,7 @@
         (onMouseDown)="toolbarItem.action(toolbarItem.format)"><span class="material-icons">{{ toolbarItem.icon
           }}</span></demo-button>
     </div>
-    <slate-editable class="demo-slate-angular-editor" [editor]="editor" [renderElement]="renderElement" [renderLeaf]="renderLeaf"
+    <slate-editable class="demo-slate-angular-editor" [editor]="editor" [decorate]="decorate" [renderElement]="renderElement" [renderLeaf]="renderLeaf"
       [keydown]="keydown">
       <ng-template #heading_1 let-context="context" let-viewContext="viewContext">
         <h1 slateElement [context]="context" [viewContext]="viewContext"></h1>
