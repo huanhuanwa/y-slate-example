@@ -26,7 +26,7 @@
     "randomcolor": "^0.6.2",
     "rxjs": "~6.6.0",
     "slate": "^0.63.0",
-    "slate-angular": "^1.1.8",
+    "slate-angular": "^1.1.9",
     "theia": "^2.1.2",
     "tslib": "^2.0.0",
     "y-slate": "0.0.1",
