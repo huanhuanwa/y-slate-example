@@ -1,4 +1,4 @@
-<div class="demo-editor-container">
+<div class="demo-editor-container" [ngClass]="{'offline-editor': !isOnline}">
   <div class="editor-header">
     <span class="editor-name">
       Editor: {{user.name}}
@@ -13,8 +13,7 @@
         (onMouseDown)="toolbarItem.action(toolbarItem.format)"><span class="material-icons">{{ toolbarItem.icon
           }}</span></demo-button>
     </div>
-    <slate-editable class="demo-slate-angular-editor" [editor]="editor" [(ngModel)]="value" [decorate]="decorate"
-      (ngModelChange)="valueChange($event)" [renderElement]="renderElement" [renderLeaf]="renderLeaf"
+    <slate-editable class="demo-slate-angular-editor" [editor]="editor" [renderElement]="renderElement" [renderLeaf]="renderLeaf"
       [keydown]="keydown">
       <ng-template #heading_1 let-context="context" let-viewContext="viewContext">
         <h1 slateElement [context]="context" [viewContext]="viewContext"></h1>

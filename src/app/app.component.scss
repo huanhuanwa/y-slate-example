@@ -128,7 +128,10 @@ $editor-width: 800px;
       width: 50%;
     }
 }
-
+.offline-editor{
+    background-color: lightcoral;
+    opacity: 0.3;
+}
 .demo-table-editor-wrapper {
     padding: 0px;
     .slate-editable-container {

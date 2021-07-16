@@ -17,8 +17,6 @@ import {
 } from "y-slate";
 
 
-const SLATE_DEV_MODE_KEY = 'slate-dev';
-
 export enum MarkTypes {
   bold = 'bold',
   italic = 'italic',
@@ -45,8 +43,6 @@ const LIST_TYPES = ['numbered-list', 'bulleted-list']
   styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
-
-  value = [];
 
   color: string;
 
@@ -238,13 +234,6 @@ export class EditorComponent implements OnInit {
     this.isOnline ? this.provider.disconnect() : this.provider.connect();
   }
 
-
-  valueChange(event) {
-    if (localStorage.getItem(SLATE_DEV_MODE_KEY)) {
-      console.log(`anchor: ${JSON.stringify(this.editor.selection?.anchor)}\nfocus:  ${JSON.stringify(this.editor.selection?.focus)}`);
-      console.log('operations: ', this.editor.operations);
-    }
-  }
 
   renderElement = (element: Element & { type: string }) => {
     if (element.type === 'heading-one') {
