@@ -14,7 +14,7 @@ import {
   useCursors,
   withCursor,
   withYjs,
-} from "y-slate";
+} from "@worktile/y-slate";
 
 
 export enum MarkTypes {
@@ -195,7 +195,7 @@ export class EditorComponent implements OnInit {
     this.provider = new WebsocketProvider(WEBSOCKET_ENDPOINT, this.slug, doc, {
       connect: false,
     });
-    this.editor = withCursor(
+    withCursor(
       withYjs(this.editor, this.sharedType),
       this.provider.awareness
     );
